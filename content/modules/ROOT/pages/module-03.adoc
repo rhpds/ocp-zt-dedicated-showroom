@@ -1,0 +1,35 @@
+= Module 3: As Developer User
+
+Create a Secret in `demo-project` as the `developer` user. The grader uses `oc --as developer` impersonation on the bastion.
+
+== Credentials
+
+[cols="1,2"]
+|===
+| Username | `developer`
+| Password | See the Welcome page — `openshift_cluster_account_passwords.developer`
+|===
+
+Log in as developer from the bastion:
+
+[source,sh,role=execute]
+----
+oc login {openshift_api_server_url} -u developer --insecure-skip-tls-verify
+----
+
+== Your Task
+
+As `developer`, create a Secret in `demo-project`:
+
+[source,sh,role=execute]
+----
+oc create secret generic dev-secret \
+  --from-literal=api-key=my-app-key \
+  -n demo-project
+----
+
+== Verify
+
+Click *Validate* to check that `dev-secret` exists in `demo-project` and is accessible by `developer`.
+
+Click *Solve* to have the grader create it using `oc --as developer`.

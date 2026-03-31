@@ -1,116 +1,31 @@
-= OpenShift Pipelines Demo - Healthcare Deployment Automation
-:imagesdir: ../assets/images
+= Zero Touch Grading — Dedicated OCP Lab
 
-**Presenter Note**: This demonstration shows how Red Hat OpenShift Pipelines transforms healthcare deployment workflows from weeks to hours while maintaining strict compliance requirements.
+Welcome to the Zero Touch Grading dedicated cluster lab.
 
-== What This Demo Covers
+== Your Credentials
 
-This demonstration shows how OpenShift Pipelines accelerates healthcare application deployment while meeting strict regulatory requirements:
+=== Admin Access
+[cols="1,2"]
+|===
+| Username | `{openshift_cluster_admin_username}`
+| Password | `{openshift_cluster_admin_password}`
+| Console  | {openshift_cluster_console_url}[OCP Console^]
+| API URL  | `{openshift_api_server_url}`
+|===
 
-* **Automated CI/CD Pipelines** - Eliminate 3-week manual deployment cycles
-* **Built-in Compliance & Security** - Automated HIPAA and SOC2 policy enforcement
-* **Multi-Environment Promotion** - Safe, repeatable deployments across regions
-* **Business ROI** - 97% faster deployments, 90% fewer vulnerabilities, 5x feature velocity
+=== Developer Access
+[cols="1,2"]
+|===
+| Username | `developer`
+| Password | `{openshift_cluster_account_passwords}`
+|===
 
-== Customer Scenario: HealthTech
+NOTE: The developer password is shown in the `developer` key of the account passwords above.
 
-**Company**: HealthTech Inc., a virtual care platform provider
+== Lab Modules
 
-**Challenge**: Manual deployments take 3 weeks, blocking critical patient-facing features and risking regulatory compliance windows.
+* *Module 1* — Ansible + `kubernetes.core` as cluster-admin — creates `demo-project` and grants developer access
+* *Module 2* — Bash script on bastion (as `lab-user`/system:admin) — creates a ConfigMap
+* *Module 3* — Tasks as `developer` user using `oc --as developer` — creates a Secret
 
-**Business Impact**:
-
-* Development teams spend 40% of time waiting for deployments
-* Security vulnerabilities discovered too late in the process
-* Regional fragmentation complicates multi-geography deployments
-* HIPAA and SOC2 compliance requires extensive manual audits
-
-**Solution**: Red Hat OpenShift Pipelines provides Kubernetes-native CI/CD automation with built-in security and compliance features.
-
-== Demo Modules
-
-This demo is structured in three parts, demonstrating progressive automation and business value:
-
-xref:01-overview.adoc[**Presenter Preparation**]::
-Complete business context, problem breakdown, and common customer questions to prepare for the demonstration.
-
-xref:03-pipeline-deployment.adoc[**Module 1: Automated Pipeline Deployment** (12-15 min)]::
-Show how OpenShift Pipelines transforms 3-week manual deployments into 2-hour automated workflows, enabling developer self-service and 5x faster feature delivery.
-
-xref:04-compliance-security.adoc[**Module 2: Built-in Compliance & Security** (10-12 min)]::
-Demonstrate automated security scanning, policy enforcement, and compliance reporting that reduces vulnerabilities by 90% while accelerating deployments.
-
-xref:05-multi-environment.adoc[**Module 3: Multi-Environment & Production Confidence** (5-8 min)]::
-Show how to promote applications across dev → staging → production with approval gates, enabling safe regional deployments with consistency.
-
-xref:06-conclusion.adoc[**Conclusion and Next Steps**]::
-Business impact recap, competitive advantages, next steps for evaluation and pilot programs, and comprehensive references.
-
-== Key Business Outcomes
-
-This demonstration delivers compelling proof points:
-
-* **97% faster deployments**: 3 weeks → 2 hours
-* **90% fewer vulnerabilities**: Automated security scanning vs manual audits
-* **5x feature delivery velocity**: Weekly releases instead of quarterly
-* **Zero manual provisioning**: Developer self-service eliminates tickets
-* **Automated compliance**: Policy as code for HIPAA and SOC2
-
-== Target Audience
-
-**Primary**: C-level executives (CTO, CIO) evaluating platform modernization
-
-**Secondary**: VP Engineering, Security leaders, Compliance officers
-
-**Technical**: Solution architects, DevOps engineers, Platform teams
-
-== Demo Prerequisites
-
-**OpenShift Environment**:
-
-* OpenShift 4.14 or later
-* OpenShift Pipelines Operator installed
-* Admin access to cluster console
-
-**Access Information** (provided in environment):
-
-* OpenShift Console: `{openshift_cluster_console_url}`
-* Username: `{user}`
-* Password: `{password}`
-
-== Presenter Tips
-
-**Pacing**:
-
-* Total demo time: 30-35 minutes
-* Leave 10-15 minutes for questions
-* Pause after each "wow moment" for impact
-
-**Key Messages**:
-
-* Emphasize business outcomes over technical features
-* Connect every technical capability to HealthTech's business challenges
-* Use the 3 weeks → 2 hours metric repeatedly
-* Highlight "compliance without compromise" theme
-
-**Common Objections**:
-
-* "We already have Jenkins" → Show Kubernetes-native advantages and simplified management
-* "Security scanning slows us down" → Demonstrate automated gates that accelerate without sacrificing safety
-* "Our teams aren't ready for Kubernetes" → Emphasize developer-friendly UI and abstraction
-
-**Competitive Positioning**:
-
-* Kubernetes-native (not bolted-on CI/CD like standalone Jenkins)
-* Policy enforcement built-in (vs external tools like Twistlock alone)
-* Enterprise Red Hat support (vs community-only alternatives)
-
-== Additional Resources
-
-* link:https://www.redhat.com/en/technologies/cloud-computing/openshift/pipelines[Red Hat OpenShift Pipelines Product Page^]
-* link:https://docs.openshift.com/pipelines/latest/[OpenShift Pipelines Documentation^]
-* link:https://www.redhat.com/en/resources/healthcare-industry-overview[Healthcare Solutions Overview^]
-
----
-
-**Ready to begin?** Start with xref:01-overview.adoc[Presenter Preparation] to understand the complete business context, then proceed to xref:03-pipeline-deployment.adoc[Module 1] for the demonstration.
+Click *Module 1: Admin Task* to begin.

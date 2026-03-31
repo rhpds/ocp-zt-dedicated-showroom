@@ -1,0 +1,28 @@
+= Conclusion
+
+Congratulations — you have completed the Zero Touch Grading dedicated OCP lab!
+
+== What was tested
+
+[cols="1,2,1",options="header"]
+|===
+| Module | Task | Pattern
+
+| *Module 1*
+| Created `demo-project` namespace + developer RoleBinding
+| Ansible + kubernetes.core (cluster-admin)
+
+| *Module 2*
+| Created `app-config` ConfigMap in `demo-project`
+| Bash script via ansible.builtin.script on bastion
+
+| *Module 3*
+| Created `dev-secret` as developer user
+| `oc --as developer` on bastion (impersonation)
+|===
+
+== How the ZT grader worked
+
+* *Module 1*: Runner used `kubernetes.core` with a cluster-admin SA token directly — no SSH needed
+* *Module 2*: Runner SSHed to bastion and used `ansible.builtin.script` to copy and run a bash script
+* *Module 3*: Runner SSHed to bastion and ran `oc --as developer` — the bastion's system:admin can impersonate any user
