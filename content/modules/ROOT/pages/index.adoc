@@ -17,10 +17,8 @@ Welcome to the Zero Touch Grading dedicated cluster lab.
 [cols="1,2"]
 |===
 | Username | `developer`
-| Password | `{openshift_cluster_account_passwords}`
+| Password | See your lab credentials panel
 |===
-
-NOTE: The developer password is shown in the `developer` key of the account passwords above.
 
 == Lab Modules
 
@@ -28,4 +26,4 @@ NOTE: The developer password is shown in the `developer` key of the account pass
 * *Module 2* — Bash script on bastion (as `lab-user`/system:admin) — creates a ConfigMap
 * *Module 3* — Tasks as `developer` user using `oc --as developer` — creates a Secret
 
-Click *Module 1: Admin Task* to begin.
+Click *Next* to begin.
