@@ -1,9 +1,8 @@
 ---
-- name: Module 2 Setup
+- name: Setup
   hosts: localhost
   connection: local
   gather_facts: false
   tasks:
-    - name: Setup complete
-      ansible.builtin.debug:
-        msg: "Log in as developer user and create a ConfigMap in dev-project."
+    - ansible.builtin.debug:
+        msg: "Setup complete — proceed with the module instructions."

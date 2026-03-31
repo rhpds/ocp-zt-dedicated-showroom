@@ -1,12 +1,13 @@
 ---
-# Module 1 Solve — create the dev-project namespace as cluster-admin
-# Runner SA has cluster-admin — no impersonation needed for admin tasks
-- name: Module 1 Solve — create dev-project namespace
+# Module 1 — Ansible + kubernetes.core as cluster-admin
+# Runner uses k8s_kubeconfig (cluster-admin SA token) directly.
+# No SSH, no bastion needed for this module.
+- name: Module 1 Solve — create demo-project namespace
   hosts: localhost
   connection: local
   gather_facts: false
   tasks:
-    - name: Create dev-project namespace
+    - name: Create demo-project namespace
       kubernetes.core.k8s:
         kubeconfig: "{{ k8s_kubeconfig | default(omit) }}"
         validate_certs: false
@@ -15,11 +16,11 @@
           apiVersion: v1
           kind: Namespace
           metadata:
-            name: dev-project
+            name: demo-project
             labels:
               created-by: zerotouch
 
-    - name: Grant developer user admin access to dev-project
+    - name: Grant developer user admin access in demo-project
       kubernetes.core.k8s:
         kubeconfig: "{{ k8s_kubeconfig | default(omit) }}"
         validate_certs: false
@@ -29,7 +30,7 @@
           kind: RoleBinding
           metadata:
             name: developer-admin
-            namespace: dev-project
+            namespace: demo-project
           subjects:
             - kind: User
               name: developer

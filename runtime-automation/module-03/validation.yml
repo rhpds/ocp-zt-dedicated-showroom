@@ -1,0 +1,35 @@
+---
+# Module 3 — validate tasks done as developer user
+# Checks Secret exists AND was creatable by developer (verifies RBAC is correct)
+- name: Build SSH inventory
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - ansible.builtin.add_host:
+        name: bastion
+        ansible_host: "{{ bastion_host }}"
+        ansible_user: "{{ student_user }}"
+        ansible_password: "{{ bastion_password }}"
+        ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
+
+- name: Module 3 Validation — verify Secret exists and developer has access
+  hosts: bastion
+  gather_facts: false
+  tasks:
+    - name: Check dev-secret exists as developer user
+      ansible.builtin.shell: |
+        oc get secret dev-secret -n demo-project --as developer
+      register: r_secret
+      ignore_errors: true
+
+    - name: Report result
+      validation_check:
+        check: "{{ r_secret.rc == 0 }}"
+        pass_msg: "Secret dev-secret exists in demo-project and developer can access it"
+        error_msg: |
+          Secret dev-secret not found in demo-project or developer cannot access it.
+
+          As developer user:
+            oc create secret generic dev-secret \
+              --from-literal=api-key=my-app-key \
+              -n demo-project

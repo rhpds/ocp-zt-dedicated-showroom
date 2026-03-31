@@ -1,0 +1,31 @@
+---
+# Module 3 — tasks run as developer user
+# lab-user is system:admin so can use oc --as developer (impersonation via oc CLI)
+# No password needed — system:admin can impersonate any user
+- name: Build SSH inventory
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - ansible.builtin.add_host:
+        name: bastion
+        ansible_host: "{{ bastion_host }}"
+        ansible_user: "{{ student_user }}"
+        ansible_password: "{{ bastion_password }}"
+        ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
+
+- name: Module 3 Solve — create Secret as developer user
+  hosts: bastion
+  gather_facts: false
+  tasks:
+    - name: Create dev-secret as developer user
+      ansible.builtin.shell: |
+        oc create secret generic dev-secret \
+          --from-literal=api-key=my-app-key \
+          -n demo-project \
+          --as developer \
+          --dry-run=client -o yaml | oc apply -f - --as developer
+      register: r_solve
+
+    - name: Show output
+      ansible.builtin.debug:
+        msg: "{{ r_solve.stdout }}"
