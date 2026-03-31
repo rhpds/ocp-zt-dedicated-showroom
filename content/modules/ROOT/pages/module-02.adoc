@@ -2,19 +2,9 @@
 
 Create a ConfigMap in `demo-project` from the bastion terminal. The grader runs a bash script on the bastion as `lab-user` (system:admin).
 
-== Bastion Access
-
-[cols="1,2"]
-|===
-| Host     | `{bastion_public_hostname}`
-| Port     | `{bastion_ssh_port}`
-| Username | `{bastion_ssh_user_name}`
-| Password | `{bastion_ssh_password}`
-|===
-
 == Your Task
 
-From the bastion terminal, create the ConfigMap:
+Use the *Terminal* tab to connect to the bastion, then create the ConfigMap:
 
 [source,sh,role=execute]
 ----

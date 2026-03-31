@@ -38,6 +38,9 @@ antora:
       label: "Conclusion"
 
 tabs:
+  - name: Terminal
+    url: '/wetty'
+    external: false
   - name: OCP Console
     url: 'https://console-openshift-console.${DOMAIN}'
     external: false
