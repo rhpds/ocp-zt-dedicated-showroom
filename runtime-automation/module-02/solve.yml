@@ -1,0 +1,25 @@
+---
+# Module 2 Solve — create ConfigMap as developer user (impersonated)
+# Demonstrates: cluster-admin SA impersonating a regular user
+- name: Module 2 Solve — create ConfigMap as developer
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Create app-config ConfigMap as developer user
+      kubernetes.core.k8s:
+        kubeconfig: "{{ k8s_kubeconfig | default(omit) }}"
+        validate_certs: false
+        impersonate_user: developer
+        state: present
+        definition:
+          apiVersion: v1
+          kind: ConfigMap
+          metadata:
+            name: app-config
+            namespace: dev-project
+            labels:
+              created-by: developer
+          data:
+            environment: development
+            app: my-app

@@ -1,0 +1,10 @@
+---
+# Module 1 Setup — no-op, cluster is already provisioned
+- name: Module 1 Setup
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Setup complete
+      ansible.builtin.debug:
+        msg: "Cluster-admin access is available. Create dev-project and grant developer access."

@@ -1,0 +1,36 @@
+---
+# Module 1 Validation — verify dev-project namespace exists as cluster-admin
+- name: Module 1 Validation — check dev-project namespace
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Check namespace exists
+      kubernetes.core.k8s_info:
+        kubeconfig: "{{ k8s_kubeconfig | default(omit) }}"
+        validate_certs: false
+        api_version: v1
+        kind: Namespace
+        name: dev-project
+      register: r_ns
+
+    - name: Check developer has admin RoleBinding
+      kubernetes.core.k8s_info:
+        kubeconfig: "{{ k8s_kubeconfig | default(omit) }}"
+        validate_certs: false
+        api_version: rbac.authorization.k8s.io/v1
+        kind: RoleBinding
+        name: developer-admin
+        namespace: dev-project
+      register: r_rb
+
+    - name: Validate namespace and access
+      validation_check:
+        check: "{{ r_ns.resources | length > 0 and r_rb.resources | length > 0 }}"
+        pass_msg: "Namespace dev-project exists and developer user has admin access"
+        error_msg: |
+          Namespace dev-project or developer RoleBinding not found.
+
+          Run as cluster-admin:
+            oc new-project dev-project
+            oc adm policy add-role-to-user admin developer -n dev-project

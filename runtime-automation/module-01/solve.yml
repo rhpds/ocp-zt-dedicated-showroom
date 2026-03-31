@@ -1,0 +1,40 @@
+---
+# Module 1 Solve — create the dev-project namespace as cluster-admin
+# Runner SA has cluster-admin — no impersonation needed for admin tasks
+- name: Module 1 Solve — create dev-project namespace
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Create dev-project namespace
+      kubernetes.core.k8s:
+        kubeconfig: "{{ k8s_kubeconfig | default(omit) }}"
+        validate_certs: false
+        state: present
+        definition:
+          apiVersion: v1
+          kind: Namespace
+          metadata:
+            name: dev-project
+            labels:
+              created-by: zerotouch
+
+    - name: Grant developer user admin access to dev-project
+      kubernetes.core.k8s:
+        kubeconfig: "{{ k8s_kubeconfig | default(omit) }}"
+        validate_certs: false
+        state: present
+        definition:
+          apiVersion: rbac.authorization.k8s.io/v1
+          kind: RoleBinding
+          metadata:
+            name: developer-admin
+            namespace: dev-project
+          subjects:
+            - kind: User
+              name: developer
+              apiGroup: rbac.authorization.k8s.io
+          roleRef:
+            kind: ClusterRole
+            name: admin
+            apiGroup: rbac.authorization.k8s.io
