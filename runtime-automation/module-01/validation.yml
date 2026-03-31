@@ -1,11 +1,10 @@
 ---
-# Module 1 — Ansible + kubernetes.core as cluster-admin
-- name: Module 1 Validation — verify demo-project exists
+- name: Module 1 Validation — namespace and developer access
   hosts: localhost
   connection: local
   gather_facts: false
   tasks:
-    - name: Check namespace exists
+    - name: Check Task 1 — demo-project namespace exists
       kubernetes.core.k8s_info:
         kubeconfig: "{{ k8s_kubeconfig | default(omit) }}"
         validate_certs: false
@@ -14,7 +13,7 @@
         name: demo-project
       register: r_ns
 
-    - name: Check developer RoleBinding exists
+    - name: Check Task 2 — developer has admin RoleBinding
       kubernetes.core.k8s_info:
         kubeconfig: "{{ k8s_kubeconfig | default(omit) }}"
         validate_certs: false
@@ -23,14 +22,23 @@
         name: developer-admin
         namespace: demo-project
       register: r_rb
+      ignore_errors: true
 
-    - name: Validate
+    - name: Build task summary
+      ansible.builtin.set_fact:
+        _task1_ok: "{{ r_ns.resources | length > 0 }}"
+        _task2_ok: "{{ r_rb.resources | default([]) | length > 0 }}"
+
+    - name: Validate all tasks
       validation_check:
-        check: "{{ r_ns.resources | length > 0 and r_rb.resources | length > 0 }}"
-        pass_msg: "Namespace demo-project exists and developer has admin access"
+        check: "{{ _task1_ok and _task2_ok }}"
+        pass_msg: |
+          ✅ Task 1: Namespace demo-project exists
+          ✅ Task 2: developer user has admin access in demo-project
         error_msg: |
-          Namespace demo-project or developer RoleBinding not found.
+          {{ '✅' if _task1_ok else '❌' }} Task 1: Namespace demo-project exists
+          {{ '✅' if _task2_ok else '❌' }} Task 2: developer user has admin access in demo-project
 
-          As cluster-admin:
+          Fix:
             oc new-project demo-project
             oc adm policy add-role-to-user admin developer -n demo-project

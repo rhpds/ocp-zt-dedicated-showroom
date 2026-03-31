@@ -1,41 +1,20 @@
 ---
-# Module 1 — Ansible + kubernetes.core as cluster-admin
-# Runner uses k8s_kubeconfig (cluster-admin SA token) directly.
-# No SSH, no bastion needed for this module.
-- name: Module 1 Solve — create demo-project namespace
+- name: Module 1 Solve — create ConfigMap with multiple data keys
   hosts: localhost
   connection: local
   gather_facts: false
   tasks:
-    - name: Create demo-project namespace
+    - name: Task 1+2 — create zt-test-config ConfigMap with env=test
       kubernetes.core.k8s:
         kubeconfig: "{{ k8s_kubeconfig | default(omit) }}"
         validate_certs: false
         state: present
         definition:
           apiVersion: v1
-          kind: Namespace
+          kind: ConfigMap
           metadata:
-            name: demo-project
-            labels:
-              created-by: zerotouch
-
-    - name: Grant developer user admin access in demo-project
-      kubernetes.core.k8s:
-        kubeconfig: "{{ k8s_kubeconfig | default(omit) }}"
-        validate_certs: false
-        state: present
-        definition:
-          apiVersion: rbac.authorization.k8s.io/v1
-          kind: RoleBinding
-          metadata:
-            name: developer-admin
-            namespace: demo-project
-          subjects:
-            - kind: User
-              name: developer
-              apiGroup: rbac.authorization.k8s.io
-          roleRef:
-            kind: ClusterRole
-            name: admin
-            apiGroup: rbac.authorization.k8s.io
+            name: zt-test-config
+            namespace: "{{ student_ns }}"
+          data:
+            env: test
+            solved-by: zerotouch
