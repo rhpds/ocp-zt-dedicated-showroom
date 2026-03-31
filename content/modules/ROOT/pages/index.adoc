@@ -17,7 +17,7 @@ Welcome to the Zero Touch Grading dedicated cluster lab.
 [cols="1,2"]
 |===
 | Username | `developer`
-| Password | `{openshift_cluster_account_password}`
+| Password | `{openshift_cluster_admin_password}`
 |===
 
 === Bastion Access
