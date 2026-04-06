@@ -4,7 +4,7 @@
   connection: local
   gather_facts: false
   tasks:
-    - name: Check Task 1 — demo-project namespace exists
+    - name: Check namespace exists
       kubernetes.core.k8s_info:
         kubeconfig: "{{ k8s_kubeconfig | default(omit) }}"
         validate_certs: false
@@ -13,7 +13,7 @@
         name: demo-project
       register: r_ns
 
-    - name: Check Task 2 — developer has admin RoleBinding
+    - name: Check developer RoleBinding
       kubernetes.core.k8s_info:
         kubeconfig: "{{ k8s_kubeconfig | default(omit) }}"
         validate_certs: false
@@ -29,15 +29,15 @@
         _task1_ok: "{{ r_ns.resources | length > 0 }}"
         _task2_ok: "{{ r_rb.resources | default([]) | length > 0 }}"
 
-    - name: Validate all tasks
+    - name: Validate
       validation_check:
         check: "{{ _task1_ok and _task2_ok }}"
         pass_msg: |
           ✅ Task 1: Namespace demo-project exists
-          ✅ Task 2: developer user has admin access in demo-project
+          ✅ Task 2: developer user has admin access
         error_msg: |
-          {{ '✅' if _task1_ok else '❌' }} Task 1: Namespace demo-project exists
-          {{ '✅' if _task2_ok else '❌' }} Task 2: developer user has admin access in demo-project
+          {{ '✅' if _task1_ok else '❌' }} Task 1: Namespace demo-project
+          {{ '✅' if _task2_ok else '❌' }} Task 2: developer-admin RoleBinding
 
           Fix:
             oc new-project demo-project
