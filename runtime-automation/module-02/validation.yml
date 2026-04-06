@@ -1,6 +1,4 @@
 ---
-# Module 2 — bash scripts live in showroom repo, copied to bastion via
-# ansible.builtin.script and executed there as lab-user (system:admin)
 - name: Build SSH inventory
   hosts: localhost
   gather_facts: false
@@ -9,11 +7,11 @@
         name: bastion
         ansible_host: "{{ bastion_host }}"
         ansible_port: "{{ bastion_port | default(22) }}"
-        ansible_user: "{{ student_user }}"
+        ansible_user: "{{ bastion_user | default('lab-user') }}"
         ansible_password: "{{ bastion_password }}"
         ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
 
-- name: Module 2 Validation — copy and run validate-module2.sh on bastion
+- name: Validate ConfigMap via bastion script
   hosts: bastion
   gather_facts: false
   tasks:
