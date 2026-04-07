@@ -31,3 +31,15 @@ oc create secret generic dev-secret \
 Click *Validate* to check that `dev-secret` exists in `demo-project` and is accessible by `developer`.
 
 Click *Solve* to have the grader create it using `oc --as developer`.
+
+include::common/solve-button.adoc[]
+
+++++
+<div class="solve-button-placeholder" data-module="module-03"></div>
+++++
+
+include::common/validate-button.adoc[]
+
+++++
+<div class="validate-button-placeholder" data-module="module-03"></div>
+++++
