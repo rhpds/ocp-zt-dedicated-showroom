@@ -1,40 +1,140 @@
-= Zero Touch Grading — Dedicated OCP Lab
+= OCP Dedicated Lab — E2E Test Reference
 
-Welcome to the Zero Touch Grading dedicated cluster lab.
+Welcome to the OCP dedicated cluster E2E test lab. Each module has *Solve* and *Validate* buttons to auto-complete tasks and check your work automatically.
 
-== Your Credentials
+== Your Environment
 
-=== Admin Access
-[cols="1,2"]
+=== Cluster Access
+[cols="1,2",options="header"]
 |===
-| Username | `{openshift_cluster_admin_username}`
-| Password | `{openshift_cluster_admin_password}`
-| Console  | {openshift_cluster_console_url}[OCP Console^]
-| API URL  | `{openshift_api_server_url}`
-|===
-
-=== Developer Access
-[cols="1,2"]
-|===
-| Username | `developer`
-| Password | `{openshift_cluster_admin_password}`
+| Item | Value
+| *Console* | {openshift_cluster_console_url}[OCP Console^]
+| *API URL* | `{openshift_api_server_url}`
+| *Admin username* | `{openshift_cluster_admin_username}`
+| *Admin password* | `{openshift_cluster_admin_password}`
+| *Developer username* | `developer`
+| *Developer password* | `{openshift_cluster_admin_password}`
 |===
 
 === Bastion Access
-[cols="1,2"]
+[cols="1,2",options="header"]
 |===
-| Host     | `{bastion_public_hostname}`
-| Port     | `{bastion_ssh_port}`
-| Username | `{bastion_ssh_user_name}`
-| Password | `{bastion_ssh_password}`
+| Item | Value
+| *Host* | `{bastion_public_hostname}`
+| *Port* | `{bastion_ssh_port}`
+| *Username* | `{bastion_ssh_user_name}`
+| *Password* | `{bastion_ssh_password}`
 |===
 
-Use the *Terminal* tab to connect to the bastion.
+Use the *Terminal* tab on the right to connect to the bastion.
 
-== Lab Modules
+== How This Lab Works
 
-* *Module 1* — Ansible + `kubernetes.core` as cluster-admin — creates `demo-project` and grants developer access
-* *Module 2* — Bash script on bastion (as `lab-user`/system:admin) — creates a ConfigMap
-* *Module 3* — Tasks as `developer` user using `oc --as developer` — creates a Secret
+Each module has two buttons at the bottom of the page:
+
+🚀 *Solve Module*::
+Automatically completes all tasks in the module for you.
+Output streams live so you can see exactly what's happening.
+
+✓ *Validate Module*::
+Runs automated checks against the cluster to verify the tasks were completed correctly.
+Shows ✅ for each passing check and ❌ with a fix hint for failing ones.
+
+=== Step-by-step
+
+. Follow the instructions in the module
+. Use the *Terminal* tab to run commands on the bastion
+. Click *✓ Validate Module* to check your work
+. If it fails, fix the issue and validate again
+. If stuck, click *🚀 Solve Module* — then validate to confirm it passed
+
+== Writing Playbooks (Lab Author Guide)
+
+=== Available Extravars
+
+[cols="1,2,1",options="header"]
+|===
+| Variable | Description | Example
+| `k8s_kubeconfig` | Path to cluster-admin kubeconfig | `/tmp/zt-runner-xxx.kubeconfig`
+| `bastion_host` | Bastion public hostname | `bastion-abc.apps.cluster.com`
+| `bastion_port` | Bastion SSH port | `22`
+| `bastion_user` | Bastion SSH username | `lab-user`
+| `bastion_password` | Bastion SSH password | `abc123`
+| `guid` | Lab GUID | `abc123`
+|===
+
+=== validate.yml Template (kubernetes.core from runner)
+
+[source,yaml]
+----
+---
+- name: Module Validation — from runner directly
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Check resource exists
+      kubernetes.core.k8s_info:
+        kubeconfig: "{{ k8s_kubeconfig | default(omit) }}"
+        validate_certs: false
+        api_version: v1
+        kind: Namespace
+        name: demo-project
+      register: r_ns
+
+    - name: Validate
+      validation_check:
+        check: "{{ r_ns.resources | length > 0 }}"
+        pass_msg: "✅ Namespace demo-project exists"
+        error_msg: |
+          ❌ Namespace demo-project not found
+
+          Fix:
+            oc new-project demo-project
+----
+
+=== validate.yml Template (via bastion SSH + oc)
+
+[source,yaml]
+----
+---
+- name: Module Validation — via bastion
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Add bastion to inventory
+      ansible.builtin.add_host:
+        name: bastion
+        ansible_host: "{{ bastion_host }}"
+        ansible_user: "{{ bastion_user }}"
+        ansible_ssh_pass: "{{ bastion_password }}"
+        ansible_port: "{{ bastion_port }}"
+        ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
+
+- name: Check on bastion
+  hosts: bastion
+  gather_facts: false
+  tasks:
+    - name: Check resource via oc
+      ansible.builtin.command:
+        cmd: oc get namespace demo-project
+      register: r_ns
+      changed_when: false
+      ignore_errors: true
+
+    - name: Validate
+      validation_check:
+        check: "{{ r_ns.rc == 0 }}"
+        pass_msg: "✅ Namespace demo-project exists"
+        error_msg: "❌ Namespace not found — run: oc new-project demo-project"
+----
+
+=== Rules
+
+* Always use `validation_check` — never `ansible.builtin.fail`
+* For OCP checks: use `kubernetes.core` with `k8s_kubeconfig` (no bastion needed)
+* For bastion commands: SSH via `bastion_host/user/password` extravars
+* The `job_info_dir` variable is injected automatically — do not define it
 
 Click *Next* to begin.
