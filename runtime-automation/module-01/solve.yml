@@ -4,6 +4,21 @@
   connection: local
   gather_facts: false
   tasks:
+    - name: Set target namespace (student_ns for tenant, zttest for dedicated)
+      ansible.builtin.set_fact:
+        _ns: "{{ student_ns | default('zttest') | trim }}"
+
+    - name: Ensure namespace exists
+      kubernetes.core.k8s:
+        kubeconfig: "{{ k8s_kubeconfig | default(omit) }}"
+        validate_certs: false
+        state: present
+        definition:
+          apiVersion: v1
+          kind: Namespace
+          metadata:
+            name: "{{ _ns }}"
+
     - name: Task 1+2 — create zt-test-config ConfigMap with env=test
       kubernetes.core.k8s:
         kubeconfig: "{{ k8s_kubeconfig | default(omit) }}"
@@ -14,7 +29,7 @@
           kind: ConfigMap
           metadata:
             name: zt-test-config
-            namespace: "{{ student_ns }}"
+            namespace: "{{ _ns }}"
           data:
             env: test
             solved-by: zerotouch
