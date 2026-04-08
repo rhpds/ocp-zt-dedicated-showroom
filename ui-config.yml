@@ -4,21 +4,6 @@ type: showroom
 default_width: 35
 persist_url_state: true
 
-antora:
-  name: modules
-  dir: www
-  modules:
-    - name: index
-      label: "Welcome"
-    - name: module-01
-      label: "Module 1: kubernetes.core (Admin)"
-    - name: module-02
-      label: "Module 2: Bash Script on Bastion"
-    - name: module-03
-      label: "Module 3: As Developer User"
-    - name: conclusion
-      label: "Developer Guide"
-
 tabs:
   - name: Terminal
     url: '/wetty'
@@ -26,5 +11,3 @@ tabs:
   - name: OCP Console
     url: '{openshift_cluster_console_url}'
     external: false
-
-skipModuleEnabled: true

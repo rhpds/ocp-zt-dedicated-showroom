@@ -1,8 +1,0 @@
----
-- name: Setup
-  hosts: localhost
-  connection: local
-  gather_facts: false
-  tasks:
-    - ansible.builtin.debug:
-        msg: "Setup complete — proceed with the module instructions."
