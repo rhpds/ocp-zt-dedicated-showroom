@@ -6,7 +6,7 @@ Create a ConfigMap in `demo-project` from the bastion terminal. The grader runs 
 
 Use the *Terminal* tab to connect to the bastion, then create the ConfigMap:
 
-[source,sh,role="execute send-to"]
+[source,sh,role="execute send-to-wetty"]
 ----
 oc create configmap app-config \
   --from-literal=environment=production \
