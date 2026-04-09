@@ -6,13 +6,14 @@ Create a Secret in `demo-project` as the `developer` user. The grader uses `oc -
 
 [cols="1,2"]
 |===
-| Username | `developer`
-| Password | `{openshift_cluster_admin_password}`
+| OCP API URL | `{openshift_api_server_url}`
+| Username    | `developer`
+| Password    | `{openshift_cluster_admin_password}`
 |===
 
 == Your Task
 
-Use the *Terminal* tab to log in as developer and create a Secret:
+Use the *Terminal (Node)* tab, log in as developer and create a Secret:
 
 [source,sh,role="send-to-wetty-node"]
 ----
