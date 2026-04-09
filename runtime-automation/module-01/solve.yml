@@ -6,7 +6,7 @@
   tasks:
     - name: Set target namespace (dedicated lab uses demo-project)
       ansible.builtin.set_fact:
-        _ns: "{{ student_ns | default('demo-project') | trim }}"
+        _ns: "{{ student_ns | default('demo-project', true) | trim }}"
 
     - name: Create demo-project namespace
       kubernetes.core.k8s:

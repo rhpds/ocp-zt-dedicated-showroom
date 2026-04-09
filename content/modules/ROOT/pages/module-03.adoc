@@ -15,7 +15,7 @@ Create a Secret in `demo-project` as the `developer` user. The grader uses `oc -
 
 Use the *Terminal (Node)* tab, log in as developer and create a Secret:
 
-[source,sh,role="send-to-wetty-node"]
+[source,sh,role="send-to-wetty-node",subs="attributes+"]
 ----
 oc login {openshift_api_server_url} \
   -u developer \
