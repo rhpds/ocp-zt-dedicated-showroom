@@ -1,20 +1,40 @@
 ---
-- name: Module 1 Solve — create ConfigMap with multiple data keys
+- name: Module 1 Solve — create demo-project and grant developer access
   hosts: localhost
   connection: local
   gather_facts: false
   tasks:
-    - name: Task 1+2 — create zt-test-config ConfigMap with env=test
+    - name: Set target namespace (dedicated lab uses demo-project)
+      ansible.builtin.set_fact:
+        _ns: "{{ student_ns | default('demo-project') | trim }}"
+
+    - name: Create demo-project namespace
       kubernetes.core.k8s:
         kubeconfig: "{{ k8s_kubeconfig | default(omit) }}"
         validate_certs: false
         state: present
         definition:
           apiVersion: v1
-          kind: ConfigMap
+          kind: Namespace
           metadata:
-            name: zt-test-config
-            namespace: "{{ student_ns }}"
-          data:
-            env: test
-            solved-by: zerotouch
+            name: "{{ _ns }}"
+
+    - name: Grant developer admin access to demo-project
+      kubernetes.core.k8s:
+        kubeconfig: "{{ k8s_kubeconfig | default(omit) }}"
+        validate_certs: false
+        state: present
+        definition:
+          apiVersion: rbac.authorization.k8s.io/v1
+          kind: RoleBinding
+          metadata:
+            name: developer-admin
+            namespace: "{{ _ns }}"
+          subjects:
+            - kind: User
+              name: developer
+              apiGroup: rbac.authorization.k8s.io
+          roleRef:
+            kind: ClusterRole
+            name: admin
+            apiGroup: rbac.authorization.k8s.io
