@@ -31,13 +31,11 @@ Click *Validate* to check that `demo-project` exists and `developer` has admin a
 
 Click *Solve* to have the grader complete this for you.
 
-include::common/solve-button.adoc[]
 
 ++++
 <div class="solve-button-placeholder" data-module="module-01"></div>
 ++++
 
-include::common/validate-button.adoc[]
 
 ++++
 <div class="validate-button-placeholder" data-module="module-01"></div>
