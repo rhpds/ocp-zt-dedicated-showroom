@@ -10,7 +10,7 @@ view_switcher:
 
 tabs:
   - name: Terminal
-    url: /terminal
+    url: /terminal/
     type: terminal
   - name: OCP Console
     url: '{openshift_cluster_console_url}'
