@@ -1,6 +1,8 @@
-= Module 1: Admin Task
+= Module 1: Admin Task (Testing send-to-wetty)
 
-Create a namespace `demo-project` and grant the `developer` user admin access — a cluster-admin task.
+This module demonstrates the *Send-To wetty terminal* pattern. Code blocks use `role="send-to-wetty"` — click ▶ to send commands to the *Terminal (wetty)* tab.
+
+Create a namespace `demo-project` and grant the `developer` user admin access.
 
 == Credentials
 
@@ -14,7 +16,7 @@ Create a namespace `demo-project` and grant the `developer` user admin access �
 
 == Your Task
 
-Use the *Terminal (Bastion)* tab, then run:
+Use the *Terminal (wetty)* tab — click ▶ to send directly:
 
 [source,sh,role="send-to-wetty",subs="attributes+"]
 ----
@@ -29,7 +31,7 @@ oc adm policy add-role-to-user admin developer -n demo-project
 
 == Verify
 
-Click *Validate* to check that `demo-project` exists and `developer` has admin access to it.
+Click *Validate* to check that `demo-project` exists and `developer` has admin access.
 
 Click *Solve* to have the grader complete this for you.
 

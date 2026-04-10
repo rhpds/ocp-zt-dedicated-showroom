@@ -9,8 +9,11 @@ view_switcher:
   default_mode: split
 
 tabs:
-  - name: Terminal
+  - name: Terminal (wetty)
     url: /wetty
+    type: terminal
+  - name: Terminal (tty)
+    url: /tty
     type: terminal
   - name: OCP Console
     url: '{openshift_cluster_console_url}'

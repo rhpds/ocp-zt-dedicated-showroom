@@ -1,10 +1,12 @@
-= Module 2: Bash Script on Bastion
+= Module 2: Bash Script on Bastion (Testing send-to-wetty)
 
-Create a ConfigMap in `demo-project` from the bastion terminal. The grader runs a bash script on the bastion as `lab-user` (system:admin).
+This module also uses *send-to-wetty*. Confirms the wetty terminal works for multi-command workflows.
+
+Create a ConfigMap in `demo-project` from the bastion terminal.
 
 == Your Task
 
-Use the *Terminal* tab to connect to the bastion, then create the ConfigMap:
+Use the *Terminal (wetty)* tab — click ▶:
 
 [source,sh,role="send-to-wetty",subs="attributes+"]
 ----
@@ -18,7 +20,7 @@ oc create configmap app-config \
 
 Click *Validate* to check that `app-config` ConfigMap exists in `demo-project`.
 
-Click *Solve* to have the grader run the bash script on the bastion for you.
+Click *Solve* to have the grader run the script on the bastion for you.
 
 
 ++++

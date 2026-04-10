@@ -1,6 +1,10 @@
-= Module 3: As Developer User
+= Module 3: As Developer User (Testing send-to-tty)
 
-Create a Secret in `demo-project` as the `developer` user. The grader uses `oc --as developer` impersonation on the bastion.
+This module demonstrates the *Send-To tty terminal* pattern. Code blocks use `role="send-to-tty"` — click ▶ to send commands to the *Terminal (tty)* tab.
+
+NOTE: The tty tab requires a ttyd-based terminal at `/tty`. The `execute-listener.js` is injected automatically by the chart. If your lab uses wetty only, use `send-to-wetty` instead.
+
+Create a Secret in `demo-project` as the `developer` user.
 
 == Credentials
 
@@ -13,9 +17,9 @@ Create a Secret in `demo-project` as the `developer` user. The grader uses `oc -
 
 == Your Task
 
-Use the *Terminal (Node)* tab, log in as developer and create a Secret:
+Use the *Terminal (tty)* tab — click ▶:
 
-[source,sh,role="send-to-wetty",subs="attributes+"]
+[source,sh,role="send-to-tty",subs="attributes+"]
 ----
 oc login {openshift_api_server_url} \
   -u developer \
