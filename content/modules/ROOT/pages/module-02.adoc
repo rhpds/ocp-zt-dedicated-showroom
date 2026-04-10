@@ -6,9 +6,9 @@ Create a ConfigMap in `demo-project` from the bastion terminal.
 
 == Your Task
 
-Use the *Terminal (wetty)* tab — click ▶:
+Use the *Terminal* tab — click ▶:
 
-[source,sh,role="send-to-wetty",subs="attributes+"]
+[source,sh,role="send-to-terminal",subs="attributes+"]
 ----
 oc create configmap app-config \
   --from-literal=environment=production \

@@ -1,6 +1,6 @@
 = Module 1: Admin Task (Testing send-to-wetty)
 
-This module demonstrates the *Send-To wetty terminal* pattern. Code blocks use `role="send-to-wetty"` — click ▶ to send commands to the *Terminal (wetty)* tab.
+This module demonstrates the *Send-To wetty terminal* pattern. Code blocks use `role="send-to-terminal"` — click ▶ to send commands to the *Terminal* tab.
 
 Create a namespace `demo-project` and grant the `developer` user admin access.
 
@@ -16,9 +16,9 @@ Create a namespace `demo-project` and grant the `developer` user admin access.
 
 == Your Task
 
-Use the *Terminal (wetty)* tab — click ▶ to send directly:
+Use the *Terminal* tab — click ▶ to send directly:
 
-[source,sh,role="send-to-wetty",subs="attributes+"]
+[source,sh,role="send-to-terminal",subs="attributes+"]
 ----
 oc login {openshift_api_server_url} \
   -u {openshift_cluster_admin_username} \
