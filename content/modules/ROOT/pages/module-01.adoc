@@ -1,6 +1,6 @@
 = Module 1: Admin Task (Testing send-to-wetty)
 
-This module demonstrates the *Send-To wetty terminal* pattern. Code blocks use `role="send-to-terminal"` — click ▶ to send commands to the *Terminal* tab.
+This module demonstrates the *Send-To terminal* pattern. Code blocks use `role="send-to-terminal"` — click ▶ to send commands to the *Terminal* tab.
 
 Create a namespace `demo-project` and grant the `developer` user admin access.
 
